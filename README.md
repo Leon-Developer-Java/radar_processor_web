@@ -96,19 +96,25 @@ radar_processor_web/
 
 ## 三、本地启动
 
-### 一键启动（推荐）
-
-首次需先装好依赖（见下方后端 / 前端各一次 `pip install` 与 `npm install`），之后直接：
+### 一键安装 + 启动（推荐）
 
 ```bash
 # Windows：双击或命令行运行
-start.bat
+install.bat        # 第一次：建后端虚拟环境 + 装前后端全部依赖
+start.bat          # 之后每次：拉起前后端并自动打开浏览器
+
 # Git Bash / macOS / Linux
+bash install.sh
 bash start.sh
 ```
 
-脚本会分别拉起后端与前端，等待约 8 秒后**自动打开浏览器**进入 http://127.0.0.1:5173 。
-端口在脚本顶部 `BACKEND_PORT` / `FRONTEND_PORT` 可改（默认后端 8010、前端 5173）。
+- `install.bat` / `install.sh`：自动检查 python / npm，创建 `backend/.venv`，装 torch（CPU 版）+
+  `requirements.txt`，再 `npm install` 前端。GPU 用户可参考下方手动装 cu118 版 torch，或把脚本顶部
+  `INSTALL_TORCH` 设为 0 跳过（仅 YOLO 识别需要 torch）。
+- `start.bat` / `start.sh`：分别拉起后端与前端，约 8 秒后**自动打开浏览器**进入 http://127.0.0.1:5173 。
+  端口在脚本顶部 `BACKEND_PORT` / `FRONTEND_PORT` 可改（默认后端 8010、前端 5173）。
+
+> 想了解每一步在做什么，见下方「前置 / 后端 / 前端」的手动安装说明。
 
 ### 前置
 
@@ -121,14 +127,21 @@ bash start.sh
 cd backend
 python -m venv .venv
 .venv\Scripts\activate                 # Windows；其它：source .venv/bin/activate
+python -m pip install --upgrade pip
+
+# 1) 先装 torch（ultralytics 依赖它；GPU 用户务必先装对应 CUDA 版，否则会被装成 CPU 版）
+#    GPU(cu118): pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+#    CPU / 仅试跑: pip install torch torchvision
+pip install torch torchvision
+
+# 2) 再装其余依赖
 pip install -r requirements.txt
-# torch / torchvision 因 CUDA 版本差异需单独安装：
-#   GPU(cu118): pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
-#   CPU:        pip install torch torchvision
+
 python main.py                         # http://127.0.0.1:8000  文档 /docs
 ```
 
-> 权重 `weights/*.pt`、报告模板 `report_template/*.docx` 已随仓库提供，无需额外准备。
+> - 权重 `weights/*.pt`、报告模板 `report_template/*.docx` 已随仓库提供，无需额外准备。
+> - 若只想先跑通流程、暂不做 YOLO 识别，可跳过 torch；其余功能（SDF 出图 / 3D / 地图 / 报告）不依赖 torch，调用 `/api/inference` 时才会触发懒加载。
 
 ### 前端（:5173）
 

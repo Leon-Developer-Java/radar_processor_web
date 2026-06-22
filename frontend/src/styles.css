@@ -1,0 +1,50 @@
+:root {
+  /* 取自原 Qt 应用样式表 */
+  --content-bg: #f2f1f6;        /* 主内容区 rgb(242,241,246) */
+  --panel: #ffffff;             /* GroupBox 白底 */
+  --border: #c8c8c8;            /* rgb(200,200,200) */
+  --border-soft: #e2e1e6;
+  --text: #2a2a2e;
+  --muted: #8a8a92;
+  --sidebar: #5d5d67;           /* rgb(93,93,103) */
+  --sidebar-text: #ffffff;
+  --sidebar-hover: #cdcdcd;     /* rgb(205,205,205) */
+  --sidebar-active: #f2f1f6;    /* rgb(242,241,246) */
+  --accent: #2b6cff;           /* 品牌蓝 */
+  --accent-soft: #eaf1ff;
+  --ruler: #9aa0a6;
+}
+
+* { box-sizing: border-box; }
+html, body, #app { height: 100%; margin: 0; }
+body {
+  font-family: "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  background: var(--content-bg);
+  color: var(--text);
+  font-size: 13px;
+}
+
+/* ── Qt 风格 GroupBox ── */
+.groupbox {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 16px 12px 12px;
+  margin-top: 8px;
+}
+.groupbox > .gb-title {
+  position: absolute;
+  top: -9px;
+  left: 12px;
+  background: var(--panel);
+  padding: 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.muted { color: var(--muted); }
+
+/* Element Plus 浅色微调 */
+.el-button { font-weight: 500; }

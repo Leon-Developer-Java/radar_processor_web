@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 运行期产物
+backend/outputs/*/
+backend/uploads/*/
+!backend/outputs/.gitkeep
+!backend/uploads/.gitkeep
+
+# Node
+node_modules/
+frontend/dist/
+
+# IDE
+.idea/
+.vscode/

@@ -96,6 +96,20 @@ radar_processor_web/
 
 ## 三、本地启动
 
+### 一键启动（推荐）
+
+首次需先装好依赖（见下方后端 / 前端各一次 `pip install` 与 `npm install`），之后直接：
+
+```bash
+# Windows：双击或命令行运行
+start.bat
+# Git Bash / macOS / Linux
+bash start.sh
+```
+
+脚本会分别拉起后端与前端，等待约 8 秒后**自动打开浏览器**进入 http://127.0.0.1:5173 。
+端口在脚本顶部 `BACKEND_PORT` / `FRONTEND_PORT` 可改（默认后端 8010、前端 5173）。
+
 ### 前置
 
 - Python 3.10+（实测 3.12）

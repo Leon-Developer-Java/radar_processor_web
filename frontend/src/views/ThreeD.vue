@@ -1,25 +1,25 @@
 <template>
   <div class="page threed">
+    <!-- 通道选择投递到顶栏 -->
+    <teleport to="#topbar-actions">
+      <div class="tb-chan">
+        <span class="tb-label muted">通道</span>
+        <el-input-number
+          v-model="channel1" :min="1" :max="Math.max(1, task.channels)"
+          size="small" controls-position="right" :disabled="!task.hasData"
+        />
+      </div>
+    </teleport>
+
     <!-- 原始数据 -->
     <GroupBox title="原始数据" class="board-box">
-      <div class="rd-wrap">
-        <div class="board-head">
-          <span class="muted">通道：</span>
-          <el-input-number
-            v-model="channel1" :min="1" :max="Math.max(1, task.channels)"
-            size="small" controls-position="right" :disabled="!task.hasData"
-          />
-        </div>
-        <div class="board-area">
-          <SectionBoard
-            :main-src="task.sections['Y-Section'][task.currentChannel]"
-            :z-src="task.sections['Z-Section'][0]"
-            :a-src="task.sections['A-Scan'][task.currentChannel]"
-            :bottom-src="task.sections['X-Section'][0]"
-            placeholder="导入 SDF / 图像后显示"
-          />
-        </div>
-      </div>
+      <SectionBoard
+        :main-src="task.sections['Y-Section'][task.currentChannel]"
+        :z-src="task.sections['Z-Section'][0]"
+        :a-src="task.sections['A-Scan'][task.currentChannel]"
+        :bottom-src="task.sections['X-Section'][0]"
+        placeholder="导入 SDF / 图像后显示"
+      />
     </GroupBox>
 
     <!-- 三维反演 -->
@@ -68,12 +68,10 @@ const channel1 = computed({
 }
 .board-box { flex: 0 0 44%; min-height: 0; }
 .board-box :deep(.gb-body) { height: 100%; }
-.rd-wrap { height: 100%; display: flex; flex-direction: column; }
-.board-head {
-  flex-shrink: 0; height: 30px;
-  display: flex; align-items: center; justify-content: flex-end; gap: 6px;
-}
-.board-area { flex: 1; min-height: 0; }
+
+/* 顶栏内的通道选择（teleport 内容）*/
+.tb-chan { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.tb-label { font-size: 13px; }
 .inv-box { flex: 1; min-height: 0; }
 .inv-box :deep(.gb-body) { height: 100%; }
 .inv { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; height: 100%; }

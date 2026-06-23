@@ -67,12 +67,34 @@ def build_volume_payload(y_section_paths, max_points=100000):
                              np.arange(volume.shape[1]),
                              np.arange(volume.shape[2]), indexing='ij')
 
+    flat = volume.flatten()
+
+    # 细分位表（每 2.5% 一个点），供前端做"直方图均衡"上色：
+    # 让等量体素落入等量颜色区间，数据再集中也能铺满整个调色板。
+    pcts = [round(x, 1) for x in list(np.arange(0, 100.0001, 2.5))]
+    pvals = [float(v) for v in np.percentile(flat, pcts)]
+
+    def at(p):
+        return float(np.percentile(flat, p))
+
+    # 等值面绘制范围：从 p50（中位数）起到 p98，滤掉背景、保留中-强反射层次。
+    isomin, isomax = at(50), at(98)
+    # 颜色窗口（前端按分位均衡映射到此区间）。
+    cmin, cmax = at(50), at(98)
+
     return {
         "shape": list(volume.shape),
         "x": xx.flatten().tolist(),
         "y": yy.flatten().tolist(),
         "z": zz.flatten().tolist(),
-        "values": volume.flatten().round(2).tolist(),
-        "isomin": float(volume.min()),
-        "isomax": float(volume.max()),
+        "values": flat.round(2).tolist(),
+        "vmin": float(flat.min()),
+        "vmax": float(flat.max()),
+        "cmin": cmin,
+        "cmax": cmax,
+        "isomin": isomin,
+        "isomax": isomax,
+        # 细分位表：percent(0-100) → 对应反射强度值
+        "pctl_percents": pcts,
+        "pctl_values": pvals,
     }

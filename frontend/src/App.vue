@@ -2,11 +2,12 @@
   <div class="app-shell">
     <!-- 顶部标题栏 -->
     <header class="titlebar">
-      <img src="/icons/AY_LOGO.png" class="brand" alt="安域智检 AniSmart" />
-      <h1 class="platform-title">
-        <span class="t-gpr">GPR-AI</span>
-        <span class="t-name">智能探地雷达数据多模态融合解析与三维可视化平台</span>
-      </h1>
+      <div class="brand">
+        <img src="/icons/leiling-logo.png" class="brand-logo" alt="雷翎智探" />
+        <span class="brand-name">雷翎智探</span>
+      </div>
+      <!-- 各页面通过 teleport 把功能/通道控件投递到这里 -->
+      <div id="topbar-actions" class="topbar-actions"></div>
     </header>
 
     <div class="main">
@@ -42,23 +43,27 @@ const navs = [
 
 /* 标题栏 */
 .titlebar {
-  position: relative;
-  height: 64px; flex-shrink: 0;
-  display: flex; align-items: center;
-  padding: 0 18px;
+  height: 60px; flex-shrink: 0;
+  display: flex; align-items: center; gap: 16px;
+  padding: 0 14px;
   background: #ffffff;
   border-bottom: 1px solid var(--border-soft);
 }
-.brand { height: 40px; flex-shrink: 0; position: relative; z-index: 1; }
-.platform-title {
-  position: absolute; left: 0; right: 0; margin: 0;
-  text-align: center;
+.brand {
+  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+}
+.brand-logo { height: 40px; width: auto; }
+.brand-name {
   font-family: "STKaiti", "KaiTi", "Microsoft YaHei", serif;
-  font-size: 22px; font-weight: 700; letter-spacing: 1px;
+  font-size: 20px; font-weight: 700; color: #1f3a5f; letter-spacing: 1px;
   white-space: nowrap;
 }
-.t-gpr { color: #b23b2e; margin-right: 10px; }
-.t-name { color: #1f3a5f; }
+.topbar-actions {
+  flex: 1; min-width: 0;
+  display: flex; align-items: center; gap: 14px;
+  overflow-x: auto; overflow-y: hidden;
+}
+.topbar-actions::-webkit-scrollbar { height: 5px; }
 
 /* 主体 */
 .main { flex: 1; display: flex; min-height: 0; }
